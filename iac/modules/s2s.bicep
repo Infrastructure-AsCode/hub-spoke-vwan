@@ -18,6 +18,8 @@ module modLocalNetworkGateway 'br/public:avm/res/network/local-network-gateway:0
     localAddressPrefixes: [
       parWorkload1AddressRange
     ]
+    localAsn: '${resHubGw.properties.bgpSettings.asn}'
+    localBgpPeeringAddress: resHubGw.properties.bgpSettings.bgpPeeringAddresses[0].defaultBgpIpAddresses[0]
     localGatewayPublicIpAddress: resHubGw.properties.ipConfigurations[0].publicIpAddress
     name: 'lgw-onprem-${parLocation}-${parInstanceId}'
     location: parLocation    
@@ -39,7 +41,7 @@ module modConnection 'br/public:avm/res/network/connection:0.1.3' = {
     connectionType: 'IPsec'
     connectionProtocol: 'IKEv2'
     vpnSharedKey: 'foobar'
-    enableBgp: false
+    enableBgp: true
     usePolicyBasedTrafficSelectors: false
     useLocalAzureIpAddress: false
     customIPSecPolicy: {

@@ -17,6 +17,7 @@ param parVpnClientAddressPoolAddressPrefixes array
 param parWorkspaceResourceId string
 param parOnPremWorkloadAddressRange string
 param parOnpremGwPublicIpAddress string
+param parOnpremGwName string
 
 
 module modVirtualHub 'br/public:avm/res/network/virtual-hub:0.2.2' = {
@@ -28,9 +29,6 @@ module modVirtualHub 'br/public:avm/res/network/virtual-hub:0.2.2' = {
     hubRouteTables: []
     virtualWanId: parVirtualWanResourceId
     enableTelemetry: parEnableTelemetry  
-    azureFirewallResourceId: modAzureFirewall.outputs.resourceId
-    privateToFirewall: true
-    internetToFirewall: true
   }  
 }
 
@@ -54,12 +52,20 @@ module modAzureFirewall 'br/public:avm/res/network/azure-firewall:0.5.2' = {
       }
     }
     location: parLocation
+    virtualHubId: modVirtualHub.outputs.resourceId
+    azureSkuTier: 'Standard'
     enableTelemetry: parEnableTelemetry
     diagnosticSettings: [
       {
         name: 'diag'
         workspaceResourceId: parWorkspaceResourceId
         logAnalyticsDestinationType: 'Dedicated'
+        logCategoriesAndGroups: [
+          {
+            categoryGroup: 'allLogs'
+            enabled: true
+          }
+        ]
         metricCategories: [
           {
             category: 'AllMetrics'
@@ -111,12 +117,12 @@ module modHubVpnGateway 'br/public:avm/res/network/vpn-gateway:0.1.4' = {
     name: varHubVpnGatewayName
     virtualHubResourceId: modVirtualHub.outputs.resourceId
     location: parLocation    
-    enableTelemetry: parEnableTelemetry
+    enableTelemetry: parEnableTelemetry    
     vpnConnections: [
       {
         name: 'hub-to-onprem-${parLocation}'
         connectionBandwidth: 100
-        enableBgp: false
+        enableBgp: true
         enableInternetSecurity: true
         enableRateLimiting: false
         remoteVpnSiteResourceId: modSiteOnPremNorwayEast.outputs.resourceId
@@ -140,6 +146,10 @@ module modHubVpnGateway 'br/public:avm/res/network/vpn-gateway:0.1.4' = {
   }
 }
 
+resource resOnPremGW 'Microsoft.Network/virtualNetworkGateways@2024-05-01' existing = {
+  name: parOnpremGwName
+}
+
 module modSiteOnPremNorwayEast 'br/public:avm/res/network/vpn-site:0.3.0' = {
   name: 'deploy-vpn-site-onprem-${parLocation}-${parInstanceId}'
   params: {
@@ -151,6 +161,10 @@ module modSiteOnPremNorwayEast 'br/public:avm/res/network/vpn-site:0.3.0' = {
     ]                    
     ipAddress: parOnpremGwPublicIpAddress
     enableTelemetry: parEnableTelemetry
+    bgpProperties: {
+      asn: resOnPremGW.properties.bgpSettings.asn
+      bgpPeeringAddress: resOnPremGW.properties.bgpSettings.bgpPeeringAddress
+    }
   }  
 }
 

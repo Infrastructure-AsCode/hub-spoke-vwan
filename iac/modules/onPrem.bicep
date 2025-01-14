@@ -5,6 +5,8 @@ param parLocation string
 param parAddressRange string
 param parWorkspaceResourceId string
 
+var varVariables = loadJsonContent('../.global/variables.json')
+
 var varWorkloadAddressRange = cidrSubnet(parAddressRange, 25, 1)
 module modVNetOnPrem 'br/public:avm/res/network/virtual-network:0.5.2' = {
   name: 'deploy-onprem-vnet-${parLocation}-${parInstanceId}'
@@ -56,26 +58,39 @@ module modVirtualNetworkGateway 'br/public:avm/res/network/virtual-network-gatew
   name: 'deploy-virtual-network-gateway-${parLocation}-${parInstanceId}'
   params: {
     clusterSettings: {
-      clusterMode: 'activePassiveNoBgp'
+      clusterMode: 'activePassiveBgp'
+      asn: varVariables.OnPremASN
     }
-    gatewayType: 'Vpn'
-    name: varVPNGatewayName
+    gatewayType: 'Vpn'       
+    name: varVPNGatewayName   
     vNetResourceId: modVNetOnPrem.outputs.resourceId
     allowRemoteVnetTraffic: true
     disableIPSecReplayProtection: true
     enableBgpRouteTranslationForNat: true
-    enablePrivateIpAddress: true
+    enablePrivateIpAddress: false
     existingFirstPipResourceId: modGwPublicIpAddress.outputs.resourceId
     location: parLocation
     skuName: 'VpnGw2AZ'
     vpnGatewayGeneration: 'Generation2'
     vpnType: 'RouteBased'
-    enableTelemetry: false
+    enableTelemetry: false    
+    diagnosticSettings: [
+      {
+        name: 'diag'
+        workspaceResourceId: parWorkspaceResourceId
+        metricCategories: [
+          {
+            category: 'AllMetrics'
+            enabled: true
+          }
+        ]
+      }
+    ]  
   }
 }
 
 module modVirtualMachine 'br/public:avm/res/compute/virtual-machine:0.11.0' = {
-  name: 'deploy-onprem-virtual-machine-${parLocation}-${parInstanceId}'
+  name: 'deploy-onprem-vm-${parLocation}-${parInstanceId}'
   params: {
     adminUsername: 'iac-user'
     adminPassword: 'fooBar123!'
@@ -115,3 +130,5 @@ module modVirtualMachine 'br/public:avm/res/compute/virtual-machine:0.11.0' = {
 output outOnpremGwPublicIpAddress string = modGwPublicIpAddress.outputs.ipAddress
 output outOnPremWorkloadAddressRange string = varWorkloadAddressRange
 output outVirtualNetworkGatewayId string = modVirtualNetworkGateway.outputs.resourceId
+output outVirtualNetworkGatewayName string = modVirtualNetworkGateway.outputs.name
+

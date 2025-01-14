@@ -10,7 +10,8 @@
     ],    
     "WorkloadNorwayEastAddressRange": "10.9.2.0/26",
     "WorkloadSwedenCentralAddressRange": "10.9.3.0/26",
-    "OnPremNorwayEastAddressRange": "192.168.0.0/24",
-    "OnPremSwedenCentralAddressRange": "192.168.2.0/24"
+    "OnPremNorwayEastAddressRange": "10.1.0.0/24",
+    "OnPremASN": 65514,
+    "OnPremSwedenCentralAddressRange": "10.2.0.0/24"
 
 }

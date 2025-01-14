@@ -51,7 +51,7 @@ resource resVnetPeeringVwan 'Microsoft.Network/virtualHubs/hubVirtualNetworkConn
 }
 
 module modVirtualMachine 'br/public:avm/res/compute/virtual-machine:0.11.0' = {
-  name: 'deploy-workload-virtual-machine-${parLocation}-${parInstanceId}'
+  name: 'deploy-workload-vm-${parLocation}-${parInstanceId}'
   params: {
     adminUsername: 'iac-user'
     adminPassword: 'fooBar123!'
