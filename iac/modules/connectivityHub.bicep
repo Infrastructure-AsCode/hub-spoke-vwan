@@ -168,5 +168,6 @@ module modSiteOnPremNorwayEast 'br/public:avm/res/network/vpn-site:0.3.0' = {
   }  
 }
 
+output outHubP2SGatewayName string = modP2SVpnGateway.outputs.name
 output outHubVpnGatewayName string = modHubVpnGateway.outputs.name
 output outHubResourceId string = modVirtualHub.outputs.resourceId

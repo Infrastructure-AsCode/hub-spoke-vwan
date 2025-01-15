@@ -4,8 +4,7 @@ param parInstanceId int
 param parLocation string
 param parAddressRange string
 param parWorkspaceResourceId string
-
-var varVariables = loadJsonContent('../.global/variables.json')
+param parAsn int
 
 var varWorkloadAddressRange = cidrSubnet(parAddressRange, 25, 1)
 module modVNetOnPrem 'br/public:avm/res/network/virtual-network:0.5.2' = {
@@ -59,7 +58,7 @@ module modVirtualNetworkGateway 'br/public:avm/res/network/virtual-network-gatew
   params: {
     clusterSettings: {
       clusterMode: 'activePassiveBgp'
-      asn: varVariables.OnPremASN
+      asn: parAsn
     }
     gatewayType: 'Vpn'       
     name: varVPNGatewayName   

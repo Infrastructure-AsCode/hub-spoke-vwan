@@ -44,6 +44,7 @@ module modOnPremNorwayEast 'modules/onPrem.bicep' = {
     parLocation: 'norwayeast'
     parAddressRange: varVariables.OnPremNorwayEastAddressRange
     parWorkspaceResourceId: modWorkspace.outputs.resourceId
+    parAsn: varVariables.OnPremASNNorwayEast
   }
 }
 
@@ -110,49 +111,83 @@ module modWorkloadNorwayEast 'modules/workload.bicep' = {
   }
 }
 
-// module modOnPremSwedenCentral 'modules/onPrem.bicep' = {
-//   name: 'deploy-onprem-swedencentral-${parInstanceId}'
-//   dependsOn: [
-//     modResourceGroup
-//   ]
-//   scope: resourceGroup(varResourceGroupName)
-//   params: {
-//     parInstanceId: parInstanceId
-//     parLocation: 'swedencentral'
-//     parAddressRange: varVariables.OnPremSwedenCentralAddressRange
-//     parWorkspaceResourceId: modWorkspace.outputs.resourceId
-//   }
-// }
+module modDiagnosticNorwayEast 'modules/diagnostic.bicep' = {
+  name: 'deploy-diagnostic-norwayeast-${parInstanceId}'
+  scope: resourceGroup(varResourceGroupName)
+  params: {
+    parWorkspaceResourceId: modWorkspace.outputs.resourceId
+    parHubP2SGatewayName: modConnectivityHubNorwayEast.outputs.outHubP2SGatewayName
+    parHubVpnGatewayName: modConnectivityHubNorwayEast.outputs.outHubVpnGatewayName
+  }
+}
 
-// module modConnectivityHubSwedenCentral 'modules/connectivityHub.bicep' = {
-//   name: 'deploy-connectivity-hub-swedencentral-${parInstanceId}'
-//   scope: resourceGroup(varResourceGroupName)
-//   dependsOn: [
-//     modResourceGroup
-//   ]
-//   params: {
-//     parInstanceId: parInstanceId    
-//     parLocation: 'swedencentral'
-//     parVirtualWanResourceId: modVirtualWan.outputs.resourceId
-//     parAADAudience: parAADAudience
-//     parAADIssuer: parAADIssuer
-//     parAADTenant: parAADTenant
-//     parHubAddressPrefix: varVariables.HubAddressPrefixSwedenCentral
-//     parVpnClientAddressPoolAddressPrefixes: varVariables.VpnClientAddressPoolAddressPrefixesSwedenCentral
-//     parWorkspaceResourceId: modWorkspace.outputs.resourceId
-//     parOnPremWorkloadAddressRange: modOnPremSwedenCentral.outputs.outOnPremWorkloadAddressRange
-//     parOnpremGwPublicIpAddress: modOnPremSwedenCentral.outputs.outOnpremGwPublicIpAddress
-//   }    
-// }
+module modOnPremSwedenCentral 'modules/onPrem.bicep' = {
+  name: 'deploy-onprem-swedencentral-${parInstanceId}'
+  dependsOn: [
+    modResourceGroup
+  ]
+  scope: resourceGroup(varResourceGroupName)
+  params: {
+    parInstanceId: parInstanceId
+    parLocation: 'swedencentral'
+    parAddressRange: varVariables.OnPremSwedenCentralAddressRange
+    parWorkspaceResourceId: modWorkspace.outputs.resourceId
+    parAsn: varVariables.OnPremASNSwedenCentral
+  }
+}
 
-// module modWorkloadSwedenCentral 'modules/workload.bicep' = {
-//   name: 'deploy-workload-swedencentral-${parInstanceId}'
-//   scope: resourceGroup(varResourceGroupName)
-//   params: {
-//     parInstanceId: parInstanceId
-//     parLocation: 'swedencentral'
-//     parAddressRange: varVariables.WorkloadSwedenCentralAddressRange
-//     parWorkspaceResourceId: modWorkspace.outputs.resourceId
-//     parVirtualWanHubResourceId: modConnectivityHubSwedenCentral.outputs.outHubResourceId
-//   }
-// }
+module modConnectivityHubSwedenCentral 'modules/connectivityHub.bicep' = {
+  name: 'deploy-connectivity-hub-swedencentral-${parInstanceId}'
+  scope: resourceGroup(varResourceGroupName)
+  dependsOn: [
+    modResourceGroup
+  ]
+  params: {
+    parInstanceId: parInstanceId    
+    parLocation: 'swedencentral'
+    parVirtualWanResourceId: modVirtualWan.outputs.resourceId
+    parAADAudience: parAADAudience
+    parAADIssuer: parAADIssuer
+    parAADTenant: parAADTenant
+    parHubAddressPrefix: varVariables.HubAddressPrefixSwedenCentral
+    parVpnClientAddressPoolAddressPrefixes: varVariables.VpnClientAddressPoolAddressPrefixesSwedenCentral
+    parWorkspaceResourceId: modWorkspace.outputs.resourceId
+    parOnPremWorkloadAddressRange: modOnPremSwedenCentral.outputs.outOnPremWorkloadAddressRange
+    parOnpremGwPublicIpAddress: modOnPremSwedenCentral.outputs.outOnpremGwPublicIpAddress
+    parOnpremGwName: modOnPremSwedenCentral.outputs.outVirtualNetworkGatewayName
+  }    
+}
+
+module modWorkloadSwedenCentral 'modules/workload.bicep' = {
+  name: 'deploy-workload-swedencentral-${parInstanceId}'
+  scope: resourceGroup(varResourceGroupName)
+  params: {
+    parInstanceId: parInstanceId
+    parLocation: 'swedencentral'
+    parAddressRange: varVariables.WorkloadSwedenCentralAddressRange
+    parWorkspaceResourceId: modWorkspace.outputs.resourceId
+    parVirtualWanHubResourceId: modConnectivityHubSwedenCentral.outputs.outHubResourceId
+  }
+}
+
+module modS2SSwedenCentral 'modules/s2s.bicep' = {
+  name: 'deploy-s2s-swedencentral-${parInstanceId}'
+  scope: resourceGroup(varResourceGroupName)
+  params: {
+    parInstanceId: parInstanceId
+    parLocation: 'swedencentral'
+    parWorkload1AddressRange: varVariables.WorkloadSwedenCentralAddressRange
+    parHubVpnGatewayName: modConnectivityHubSwedenCentral.outputs.outHubVpnGatewayName
+    parVirtualNetworkGatewayId: modOnPremSwedenCentral.outputs.outVirtualNetworkGatewayId
+  }
+}
+
+module modDiagnosticSwedenCentral 'modules/diagnostic.bicep' = {
+  name: 'deploy-diagnostic-swedencentral-${parInstanceId}'
+  scope: resourceGroup(varResourceGroupName)
+  params: {
+    parWorkspaceResourceId: modWorkspace.outputs.resourceId
+    parHubP2SGatewayName: modConnectivityHubSwedenCentral.outputs.outHubP2SGatewayName
+    parHubVpnGatewayName: modConnectivityHubSwedenCentral.outputs.outHubVpnGatewayName
+  }
+}
