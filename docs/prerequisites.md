@@ -28,11 +28,6 @@ Download and install [Windows Terminal](https://www.microsoft.com/en-us/p/window
 winget install -e --id Microsoft.WindowsTerminal
 ```
 
-## Active Azure account
-
-If you don't have an Azure account, please create one before the workshop.
-[Create your Azure free account](https://azure.microsoft.com/en-us/free/?WT.mc_id=AZ-MVP-5003837)
-
 ## Install `az cli`
 
 Download and install latest version of `az cli` from [this link](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli?view=azure-cli-latest&WT.mc_id=AZ-MVP-5003837) or install it with `winget` (Windows only)
@@ -45,52 +40,4 @@ If you already have `az cli` installed, make sure that you use the latest versio
 
 ```powershell
 az upgrade
-```
-
-## Test your azure account with `az cli`
-
-Open your terminal (bash, cmd or powershell) and login to your azure account by running this command
-
-```powershell
-# Login using your Azure account
-az login
-
-# Get a list of available subscriptions
-az account list -o table
-
-# Set subscription by subscription id
-az account set --subscription  xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
-
-# Set subscription by name
-az account set --subscription subscription_name
-```
-
-## Install git
-
-```powershell
-# Install git for Mac
-brew install git
-
-# Install git with winget
-winget install -e --id Git.Git
-```
-
-## Install Azure PowerShell module
-
-Make sure that the latest version of Azure PowerShell is installed. See [Install Azure PowerShell module](https://learn.microsoft.com/en-us/powershell/azure/install-azure-powershell) for detailed information.
-
-## Wireshark
-
-Download and install [Wireshark](https://www.wireshark.org/download.html) or use `winget` (Windows only)
-
-```powershell
-winget install -e --id WiresharkFoundation.Wireshark
-```
-
-## Azure Storage Explorer
-
-Download and install [Azure Storage Explorer](https://azure.microsoft.com/en-us/products/storage/storage-explorer) or use `winget` (Windows only)
-
-```powershell
-winget install --id=Microsoft.Azure.StorageExplorer  -e
 ```
