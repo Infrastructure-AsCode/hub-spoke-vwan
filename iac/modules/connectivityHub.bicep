@@ -52,12 +52,12 @@ module modAzureFirewall 'br/public:avm/res/network/azure-firewall:0.5.2' = {
       }
     }
     location: parLocation
-    virtualHubId: modVirtualHub.outputs.resourceId
+    //virtualHubId: modVirtualHub.outputs.resourceId
     azureSkuTier: 'Standard'
     enableTelemetry: parEnableTelemetry
     diagnosticSettings: [
       {
-        name: 'diag'
+        name: 'diagnostic'
         workspaceResourceId: parWorkspaceResourceId
         logAnalyticsDestinationType: 'Dedicated'
         logCategoriesAndGroups: [
@@ -113,19 +113,18 @@ var varHubVpnGatewayName = 'vpnGw-${parLocation}-${parInstanceId}'
 module modHubVpnGateway 'br/public:avm/res/network/vpn-gateway:0.1.4' = {
   name: 'deploy-hub-vpn-gateway-${parLocation}-${parInstanceId}'
   params: {
-    // Required parameters
     name: varHubVpnGatewayName
     virtualHubResourceId: modVirtualHub.outputs.resourceId
     location: parLocation    
     enableTelemetry: parEnableTelemetry    
-    vpnConnections: [
+    vpnConnections: (parLocation == 'norwayeast') ? [
       {
         name: 'hub-to-onprem-${parLocation}'
         connectionBandwidth: 100
         enableBgp: true
         enableInternetSecurity: true
         enableRateLimiting: false
-        remoteVpnSiteResourceId: modSiteOnPremNorwayEast.outputs.resourceId
+        remoteVpnSiteResourceId: modSiteOnPrem.outputs.resourceId
         routingWeight: 0
         useLocalAzureIpAddress: false
         usePolicyBasedTrafficSelectors: false
@@ -142,7 +141,7 @@ module modHubVpnGateway 'br/public:avm/res/network/vpn-gateway:0.1.4' = {
             saLifeTimeSeconds: 28800
           }]
       }          
-    ]
+    ] : null
   }
 }
 
@@ -150,7 +149,7 @@ resource resOnPremGW 'Microsoft.Network/virtualNetworkGateways@2024-05-01' exist
   name: parOnpremGwName
 }
 
-module modSiteOnPremNorwayEast 'br/public:avm/res/network/vpn-site:0.3.0' = {
+module modSiteOnPrem 'br/public:avm/res/network/vpn-site:0.3.0' = if (parLocation == 'norwayeast') {
   name: 'deploy-vpn-site-onprem-${parLocation}-${parInstanceId}'
   params: {
     name: 'onprem-${parLocation}'

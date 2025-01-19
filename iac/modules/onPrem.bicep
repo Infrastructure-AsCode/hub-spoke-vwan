@@ -22,7 +22,7 @@ module modVNetOnPrem 'br/public:avm/res/network/virtual-network:0.5.2' = {
             category: 'AllMetrics'
           }
         ]
-        name: 'diag'
+        name: 'diagnostic'
         workspaceResourceId: parWorkspaceResourceId
       }
     ]
@@ -75,7 +75,7 @@ module modVirtualNetworkGateway 'br/public:avm/res/network/virtual-network-gatew
     enableTelemetry: false    
     diagnosticSettings: [
       {
-        name: 'diag'
+        name: 'diagnostic'
         workspaceResourceId: parWorkspaceResourceId
         metricCategories: [
           {

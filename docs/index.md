@@ -1,10 +1,10 @@
-# Hub-spoke network topology with Azure Virtual WAN
+# Working with Azure Virtual WAN
 
 ![logo](assets/images/logo.png)
 
-This is level 200 workshop that covers different aspects of implementing Hub-spoke network topology with Azure Virtual WAN. You will learn:
+This is level 200 workshop that covers different aspects of working with Azure Virtual WAN where you will learn:
 
-- How to 
+- How to ...
 ...
 
 and much more...
@@ -14,7 +14,7 @@ Workshop is organized as a combination of theoretical blocks with slides and han
 ## Agenda
 
 - Welcome + practical information
-- Hub-spoke network topology with Azure Virtual WAN (slides)
+- Intoduction to Azure Virtual WAN (slides)
 - [Lab-01](labs/lab-01/index.md) - Provision lab resources
 - [Lab-08](labs/lab-08/index.md) - Cleaning up resources
 

@@ -170,17 +170,17 @@ module modWorkloadSwedenCentral 'modules/workload.bicep' = {
   }
 }
 
-module modS2SSwedenCentral 'modules/s2s.bicep' = {
-  name: 'deploy-s2s-swedencentral-${parInstanceId}'
-  scope: resourceGroup(varResourceGroupName)
-  params: {
-    parInstanceId: parInstanceId
-    parLocation: 'swedencentral'
-    parWorkload1AddressRange: varVariables.WorkloadSwedenCentralAddressRange
-    parHubVpnGatewayName: modConnectivityHubSwedenCentral.outputs.outHubVpnGatewayName
-    parVirtualNetworkGatewayId: modOnPremSwedenCentral.outputs.outVirtualNetworkGatewayId
-  }
-}
+// module modS2SSwedenCentral 'modules/s2s.bicep' = {
+//   name: 'deploy-s2s-swedencentral-${parInstanceId}'
+//   scope: resourceGroup(varResourceGroupName)
+//   params: {
+//     parInstanceId: parInstanceId
+//     parLocation: 'swedencentral'
+//     parWorkload1AddressRange: varVariables.WorkloadSwedenCentralAddressRange
+//     parHubVpnGatewayName: modConnectivityHubSwedenCentral.outputs.outHubVpnGatewayName
+//     parVirtualNetworkGatewayId: modOnPremSwedenCentral.outputs.outVirtualNetworkGatewayId
+//   }
+// }
 
 module modDiagnosticSwedenCentral 'modules/diagnostic.bicep' = {
   name: 'deploy-diagnostic-swedencentral-${parInstanceId}'

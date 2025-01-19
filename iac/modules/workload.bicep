@@ -22,7 +22,7 @@ module modVNet 'br/public:avm/res/network/virtual-network:0.5.2' = {
             category: 'AllMetrics'
           }
         ]
-        name: 'diag'
+        name: 'diagnostic'
         workspaceResourceId: parWorkspaceResourceId
       }
     ]
@@ -40,7 +40,7 @@ module modVNet 'br/public:avm/res/network/virtual-network:0.5.2' = {
 var varVwanHubName = split(parVirtualWanHubResourceId, '/')[8]
 var varVnetPeeringVwanName = '${varVwanHubName}/${varVNetName}'
 
-resource resVnetPeeringVwan 'Microsoft.Network/virtualHubs/hubVirtualNetworkConnections@2023-02-01' = {
+resource resVnetPeeringVwan 'Microsoft.Network/virtualHubs/hubVirtualNetworkConnections@2023-02-01' = if (parLocation == 'norwayeast') {
   name: varVnetPeeringVwanName
   properties: {
     remoteVirtualNetwork: {
