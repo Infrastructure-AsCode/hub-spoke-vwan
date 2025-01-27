@@ -1,14 +1,12 @@
 targetScope = 'subscription'
 
-param parInstanceId int
-param parAADAudience string
-param parAADIssuer string
-param parAADTenant string
-param parLocation string
-param parLAWName string = 'law-${parLocation}-${parInstanceId}'
-param parVWanName string = 'vwan-${parLocation}-${parInstanceId}'
+param parInstanceId int 
+param parLocation string 
 
-var varVariables = loadJsonContent('.global/variables.json')
+var varLAWName = 'law-${parLocation}-${parInstanceId}'
+var varVWanName = 'vwan-${parLocation}-${parInstanceId}'
+
+import {varVariables} from '.global/variables.bicep'
 var varResourceGroupName = 'rg-vwan-labs-${parLocation}-${parInstanceId}'
 
 module modResourceGroup 'br/public:avm/res/resources/resource-group:0.4.0' = {
@@ -27,7 +25,7 @@ module modWorkspace 'br/public:avm/res/operational-insights/workspace:0.9.1' = {
     modResourceGroup
   ]
   params: {
-    name: parLAWName
+    name: varLAWName
     location: parLocation
     enableTelemetry: false
   }
@@ -56,7 +54,7 @@ module modVirtualWan 'br/public:avm/res/network/virtual-wan:0.3.0' = {
   scope: resourceGroup(varResourceGroupName)  
   params: {
     location: parLocation
-    name: parVWanName
+    name: varVWanName
     allowBranchToBranchTraffic: true
     allowVnetToVnetTraffic: true
     disableVpnEncryption: true
@@ -75,9 +73,6 @@ module modConnectivityHubNorwayEast 'modules/connectivityHub.bicep' = {
     parInstanceId: parInstanceId    
     parLocation: 'norwayeast'
     parVirtualWanResourceId: modVirtualWan.outputs.resourceId
-    parAADAudience: parAADAudience
-    parAADIssuer: parAADIssuer
-    parAADTenant: parAADTenant
     parHubAddressPrefix: varVariables.HubAddressPrefixNorwayEast
     parVpnClientAddressPoolAddressPrefixes: varVariables.VpnClientAddressPoolAddressPrefixesNorwayEast
     parWorkspaceResourceId: modWorkspace.outputs.resourceId
@@ -146,9 +141,6 @@ module modConnectivityHubSwedenCentral 'modules/connectivityHub.bicep' = {
     parInstanceId: parInstanceId    
     parLocation: 'swedencentral'
     parVirtualWanResourceId: modVirtualWan.outputs.resourceId
-    parAADAudience: parAADAudience
-    parAADIssuer: parAADIssuer
-    parAADTenant: parAADTenant
     parHubAddressPrefix: varVariables.HubAddressPrefixSwedenCentral
     parVpnClientAddressPoolAddressPrefixes: varVariables.VpnClientAddressPoolAddressPrefixesSwedenCentral
     parWorkspaceResourceId: modWorkspace.outputs.resourceId

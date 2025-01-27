@@ -9,9 +9,6 @@ param parVpnServerConfigurationName string = 'p2s-vpn-config-${parLocation}-${pa
 param parAzureFirewallName string = 'afw-${parLocation}-${parInstanceId}'
 param parFirewallPolicyName string = 'afwp-${parLocation}-${parInstanceId}'
 param parHubAddressPrefix string
-param parAADAudience string
-param parAADIssuer string
-param parAADTenant string
 param parEnableTelemetry bool = false
 param parVpnClientAddressPoolAddressPrefixes array
 param parWorkspaceResourceId string
@@ -19,6 +16,8 @@ param parOnPremWorkloadAddressRange string
 param parOnpremGwPublicIpAddress string
 param parOnpremGwName string
 
+
+import {varVariables} from '../.global/variables.bicep'
 
 module modVirtualHub 'br/public:avm/res/network/virtual-hub:0.2.2' = {
   name: 'deploy-virtual-hub-${parLocation}-${parInstanceId}'
@@ -81,9 +80,9 @@ module modVpnServerConfiguration 'br/public:avm/res/network/vpn-server-configura
   name: 'deploy-p2s-vpn-config-${parLocation}-${parInstanceId}'
   params: {
     name: parVpnServerConfigurationName
-    aadAudience: parAADAudience
-    aadIssuer: parAADIssuer
-    aadTenant: parAADTenant
+    aadAudience: varVariables.AADAudience
+    aadIssuer: varVariables.AADIssuer
+    aadTenant: varVariables.AADTenant
     location: parLocation
     vpnAuthenticationTypes: [
       'AAD'

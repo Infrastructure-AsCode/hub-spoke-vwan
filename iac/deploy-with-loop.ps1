@@ -5,7 +5,7 @@ $location = 'norwayeast'
 
 Write-Host "Deploying workshop lab infra into $location..."
 $deploymentName = 'iac-labs-vwan-{0}' -f (-join (Get-Date -Format 'yyyyMMddTHHMMssffffZ')[0..63])
-az deployment sub create -l $location --template-file main.bicep -n $deploymentName
+az deployment sub create -l $location --template-file main-with-loop.bicep -n $deploymentName
 
 $stopwatch.Stop()
 

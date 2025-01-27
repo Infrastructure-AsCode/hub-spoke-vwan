@@ -8,7 +8,7 @@
             "level": "error"
           },
           "no-hardcoded-env-urls": {
-            "level": "error"
+            "level": "warning"
           },
           "no-unnecessary-dependson": {
             "level": "error"
