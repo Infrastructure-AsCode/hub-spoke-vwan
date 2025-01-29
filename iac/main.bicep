@@ -1,7 +1,7 @@
 targetScope = 'subscription'
 
-param parInstanceId int 
-param parLocation string 
+param parInstanceId int = 1
+param parLocation string = 'norwayeast'
 
 var varLAWName = 'law-${parLocation}-${parInstanceId}'
 var varVWanName = 'vwan-${parLocation}-${parInstanceId}'

@@ -16,7 +16,7 @@ Workshop is organized as a combination of theoretical blocks with slides and han
 - Welcome + practical information
 - Intoduction to Azure Virtual WAN (slides)
 - [Lab-01](labs/lab-01/index.md) - Provision lab resources
-- [Lab-08](labs/lab-08/index.md) - Cleaning up resources
+- [Lab-07](labs/lab-07/index.md) - Cleaning up resources
 
 ## Prerequisites
 

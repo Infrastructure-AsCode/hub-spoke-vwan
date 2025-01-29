@@ -41,3 +41,9 @@ If you already have `az cli` installed, make sure that you use the latest versio
 ```powershell
 az upgrade
 ```
+
+## Register Resource Providers and features
+
+```powershell
+```
+
