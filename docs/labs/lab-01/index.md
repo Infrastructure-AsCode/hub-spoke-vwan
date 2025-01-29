@@ -2,7 +2,7 @@
 
 As always, we need to provision lab environment before we can start working on the lab tasks. 
 
-Infrastructure for Lab environment is implemented using `Bicep` and code is located under [iac](https://github.com/Infrastructure-AsCode/hub-spoke-vwan/tree/main/iac) folder. Most of the resources are implemented as [Azure Verified Modules](https://azure.github.io/Azure-Verified-Modules/indexes/bicep/bicep-resource-modules/). The master orchestration Bicep file is [main.bicep](https://github.com/Infrastructure-AsCode/hub-spoke-vwan/blob/main/iac/main.bicep). It orchestrates deployment of the following resources:
+Infrastructure for Lab environment is implemented using `Bicep` and code is located under [iac](https://github.com/Infrastructure-AsCode/hub-spoke-vwan/tree/main/iac) folder. Most of the resources are implemented using [Azure Verified Modules](https://azure.github.io/Azure-Verified-Modules/indexes/bicep/bicep-resource-modules/). The master orchestration Bicep file is [main.bicep](https://github.com/Infrastructure-AsCode/hub-spoke-vwan/blob/main/iac/main.bicep). It orchestrates deployment of the following resources:
 
 
 ## Task #1 - Register required resource providers
@@ -17,7 +17,7 @@ az feature register --name EncryptionAtHost --namespace Microsoft.Compute
 az provider register --namespace Microsoft.Compute
 ```
 
-## Task #2 - Authorize the Azure VPN application
+## Task #2 - Authorize the Azure VPN application (if you haven't done it before)
 
 1. Sign in to the Azure portal as a user that is assigned the `Global administrator` role.
 2. Grant admin consent for your organization. This allows the Azure VPN application to sign in and read user profiles. Copy and paste the URL that pertains to your deployment location in the address bar of your browser:
@@ -106,7 +106,7 @@ You will be asked to enter your Azure AD credentials and if everything is config
 
 ![connected](../../assets/images/lab-01/vpn-connected.png)
 
-Under the `Connected properties` you can find what is your VPN IP Address and what VPN routes are available. You will get the same VPN IP Address if you run `ipconfig` command in your terminal.
+Under the `Connection properties` you can find what is your VPN IP Address and what VPN routes are available. You will get the same VPN IP Address if you run `ipconfig` command in your terminal.
 
 ```powershell
 ipconfig
@@ -124,7 +124,7 @@ az vm list-ip-addresses -g rg-vwan-labs-norwayeast-1 -n vm-dc-norwayeast --query
 
 Most likely it will be `10.1.0.132`, but you may have different IP address.
 
-Make sure that Azure VPN is connected, use this IP and connect to testVM using SSH. Use `iac-user` as username and `fooBar123!` as a password (if you haven't change it during deployment).
+Make sure that Azure VPN is connected, use this IP and connect to `vm-dc-norwayeast` using SSH. Use `iac-user` as username and `fooBar123!` as a password (if you haven't change it during deployment).
 
 ```powershell
 # use private IP from the previous command
@@ -143,7 +143,7 @@ az vm list-ip-addresses -g rg-vwan-labs-norwayeast-1 -n vm-wl-norwayeast --query
 
 Most likely it will be `10.9.2.4`, but you may have different IP address.
 
-Make sure that Azure VPN is connected, use this IP and connect to testVM using SSH. Use `iac-user` as username and `fooBar123!` as a password (if you haven't change it during deployment).
+Make sure that Azure VPN is connected, use this IP and connect to `vm-wl-norwayeast` using SSH. Use `iac-user` as username and `fooBar123!` as a password (if you haven't change it during deployment).
 
 ```powershell
 # use private IP from the previous command
