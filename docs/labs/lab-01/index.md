@@ -2,7 +2,7 @@
 
 As always, we need to provision lab environment before we can start working on the lab tasks. 
 
-Infrastructure for Lab environment is implemented using `Bicep` and code is located under [iac](https://github.com/Infrastructure-AsCode/hub-spoke-vwan/tree/main/iac) folder. Most of the resources are implemented as [Azure Verified Modules](https://azure.github.io/Azure-Verified-Modules/indexes/bicep/bicep-resource-modules/. The master orchestration Bicep file is [main.bicep](https://github.com/Infrastructure-AsCode/hub-spoke-vwan/blob/main/iac/main.bicep). It orchestrates deployment of the following resources:
+Infrastructure for Lab environment is implemented using `Bicep` and code is located under [iac](https://github.com/Infrastructure-AsCode/hub-spoke-vwan/tree/main/iac) folder. Most of the resources are implemented as [Azure Verified Modules](https://azure.github.io/Azure-Verified-Modules/indexes/bicep/bicep-resource-modules/). The master orchestration Bicep file is [main.bicep](https://github.com/Infrastructure-AsCode/hub-spoke-vwan/blob/main/iac/main.bicep). It orchestrates deployment of the following resources:
 
 
 ## Task #1 - Register required resource providers
