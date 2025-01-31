@@ -20,6 +20,7 @@ Workshop is organized as a combination of theoretical blocks with slides and han
 
 - Welcome + practical information
 - Intoduction to Azure Virtual WAN (slides)
+- [Lab environment description](lab-description.md)
 - [Lab-01](labs/lab-01/index.md) - Provision lab resources
 - [Lab-02](labs/lab-02/index.md) - Connecting SwedenCentral workload spoke Virtual Network to the SwedenCentral hub
 - [Lab-03](labs/lab-03/index.md) - Create new S2S VPN connection to imaginary "on-prem" environment located at SwedenCentral
