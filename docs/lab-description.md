@@ -21,7 +21,7 @@ During the workshop we will be working with infrastructure that represents a typ
 
 ## Cloud Workload description 
 
-![Lab environment](../docs/assets/images/cloud-workload.png)
+![Lab environment](assets/images/cloud-workload.png)
 
 ## On-prem Workload description
 
@@ -29,7 +29,7 @@ An imaginary "on-prem workload" consists of:
  - Virtual Network called `vnet-onprem-<region>-1`
  - one ubuntu Virtual Machine called `vm-dc-<region>`
 
-![Lab environment](../docs/assets/images/onprem-workload.png)
+![Lab environment](assets/images/onprem-workload.png)
 
 To be able to connect "on-prem workload" to the Virtual WAN Hub using Site-to-Site VPN, we use "standard" set of VPN Ganteway resources:
  - Virtual Network Gateway called `vpn-onprem-<region>-1`
@@ -41,13 +41,13 @@ To be able to connect "on-prem workload" to the Virtual WAN Hub using Site-to-Si
 
 ## IP ranges
 
-All IP ranges used in this lab defined in [IP ranges](../iac/.global/variables.bicep) variables file.
+All IP ranges used in this lab defined in [IP ranges](https://github.com/Infrastructure-AsCode/hub-spoke-vwan/blob/main/iac/.global/variables.bicep) variables file.
 
 ## Before workshop start state
 
 The initial state of the environment will be as follows:
 
-![Lab environment](../docs/assets/images/lab-environment-before.png)
+![Lab environment](assets/images/lab-environment-before.png)
 
 - `workload-norwayeast` Virtual Network will be connected to NorwayEast Virtual Hub
 - `onprem-norwayeast` datacenter will be connected to NorwayEast Virtual Hub using S2S VPN
@@ -57,7 +57,7 @@ The initial state of the environment will be as follows:
 
 The final state of the environment will be as follows:
 
-![Lab environment](../docs/assets/images/lab-environment-after.png)
+![Lab environment](assets/images/lab-environment-after.png)
 
 - `workload-swedencentral` Virtual Network will be connected to SwedenCentral Virtual Hub
 - `onprem-sweencentral` datacenter will be connected to SwedenCentral Virtual Hub using S2S VPN
