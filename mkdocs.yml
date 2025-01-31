@@ -5,7 +5,10 @@ site_author: Infrastructure as Code Oslo
 nav:
   - Homepage: index.md
   - Prerequisites: prerequisites.md
+  - Lab environment description: lab-description.md
   - Lab 01 - Provisioning lab resources: labs/lab-01/index.md
+  - Lab 02 - Connecting SwedenCentral workload spoke Virtual Network to the SwedenCentral hub: labs/lab-02/index.md
+  - Lab 03 - Create new S2S VPN connection to imaginary "on-prem" environment located at SwedenCentral: labs/lab-03/index.md
   - Lab 07 - Cleaning up resources: labs/lab-07/index.md
 theme:
   name: material

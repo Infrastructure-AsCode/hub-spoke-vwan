@@ -27,7 +27,7 @@ module modLocalNetworkGateway 'br/public:avm/res/network/local-network-gateway:0
   }
 }
 
-module modConnection 'br/public:avm/res/network/connection:0.1.3' = {
+module modConnection 'br/public:avm/res/network/connection:0.1.3' = if (parLocation == 'norwayeast') {
   name: 'deploy-gw-connection-${parLocation}-${parInstanceId}'
   params: {
     name: 'onprem-${parLocation}-to-hub'
