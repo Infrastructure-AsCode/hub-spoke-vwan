@@ -19,16 +19,44 @@ param parOnpremGwName string
 
 import {varVariables} from '../.global/variables.bicep'
 
-module modVirtualHub 'br/public:avm/res/network/virtual-hub:0.2.2' = {
-  name: 'deploy-virtual-hub-${parLocation}-${parInstanceId}'
-  params: {
-    location: parLocation
-    name: parHubName
+resource resVhub 'Microsoft.Network/virtualHubs@2023-04-01' = {
+  name: parHubName
+  location: parLocation
+  dependsOn: [
+    modFirewallPolicy
+  ]
+  properties: {
     addressPrefix: parHubAddressPrefix
-    hubRouteTables: []
-    virtualWanId: parVirtualWanResourceId
-    enableTelemetry: parEnableTelemetry  
-  }  
+    sku: 'Standard'
+    virtualWan: {
+      id: parVirtualWanResourceId
+    }
+  }
+}
+
+resource resVhubRoutingIntent 'Microsoft.Network/virtualHubs/routingIntent@2023-04-01' = if(parLocation == 'norwayeast') {
+  parent: resVhub
+  name: '${parHubName}-Routing-Intent'
+  dependsOn: [
+  ]
+  properties: {
+    routingPolicies: [
+      {
+        name: 'PublicTraffic'
+        destinations: [
+          'Internet'
+        ]
+        nextHop: modAzureFirewall.outputs.resourceId
+      }
+      {
+        name: 'PrivateTraffic'
+        destinations: [
+          'PrivateTraffic'
+        ]
+        nextHop: modAzureFirewall.outputs.resourceId
+      }      
+    ]
+  }
 }
 
 module modFirewallPolicy 'br/public:avm/res/network/firewall-policy:0.2.0' = {
@@ -36,7 +64,64 @@ module modFirewallPolicy 'br/public:avm/res/network/firewall-policy:0.2.0' = {
   params: {
     name: parFirewallPolicyName
     location: parLocation
-    enableTelemetry: parEnableTelemetry
+    tier: 'Standard'    
+    enableTelemetry: parEnableTelemetry    
+    ruleCollectionGroups: (parLocation == 'norwayeast') ? [
+      {
+        name: 'norwayeast'
+        priority: 5000
+        ruleCollections: [
+          {
+            action: {
+              type: 'Allow'
+            }
+            name: 'NetworkRules'
+            priority: 5555
+            ruleCollectionType: 'FirewallPolicyFilterRuleCollection'
+            rules: [
+              {
+                name: 'allow-workload-to-onprem'
+                ruleType: 'NetworkRule'
+                sourceAddresses: [
+                  varVariables.WorkloadNorwayEastAddressRange
+                ]
+                destinationAddresses: [
+                  varVariables.OnPremNorwayEastAddressRange
+                ]
+                destinationPorts: [
+                  '22'
+                ]
+                ipProtocols: [
+                  'TCP'
+                  'ICMP'
+                ]
+              }
+              {
+                name: 'allow-from-vpn-client-to-star'
+                ruleType: 'NetworkRule'
+                sourceAddresses: union(
+                  varVariables.VpnClientAddressPoolAddressPrefixesNorwayEast,
+                  varVariables.VpnClientAddressPoolAddressPrefixesSwedenCentral
+                )
+                destinationAddresses: [
+                  varVariables.OnPremNorwayEastAddressRange
+                  varVariables.OnPremSwedenCentralAddressRange
+                  varVariables.WorkloadNorwayEastAddressRange
+                  varVariables.WorkloadSwedenCentralAddressRange
+                ]
+                destinationPorts: [
+                  '22'
+                ]
+                ipProtocols: [
+                  'TCP'
+                  'ICMP'
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ] : []
   }
 }
 
@@ -45,13 +130,13 @@ module modAzureFirewall 'br/public:avm/res/network/azure-firewall:0.5.2' = {
   params: {
     name: parAzureFirewallName
     firewallPolicyId: modFirewallPolicy.outputs.resourceId
+    virtualHubId: resVhub.id
     hubIPAddresses: {
       publicIPs: {
         count: 1
       }
     }
     location: parLocation
-    //virtualHubId: modVirtualHub.outputs.resourceId
     azureSkuTier: 'Standard'
     enableTelemetry: parEnableTelemetry
     diagnosticSettings: [
@@ -99,7 +184,7 @@ module modP2SVpnGateway 'br/public:avm/res/network/p2s-vpn-gateway:0.1.0' = {
   params: {
     name: parP2SVpnName
     location: parLocation
-    virtualHubResourceId: modVirtualHub.outputs.resourceId
+    virtualHubResourceId: resVhub.id
     associatedRouteTableName: 'defaultRouteTable'
     p2SConnectionConfigurationsName: parVpnServerConfigurationName
     vpnClientAddressPoolAddressPrefixes: parVpnClientAddressPoolAddressPrefixes
@@ -113,7 +198,7 @@ module modHubVpnGateway 'br/public:avm/res/network/vpn-gateway:0.1.4' = {
   name: 'deploy-hub-vpn-gateway-${parLocation}-${parInstanceId}'
   params: {
     name: varHubVpnGatewayName
-    virtualHubResourceId: modVirtualHub.outputs.resourceId
+    virtualHubResourceId: resVhub.id
     location: parLocation    
     enableTelemetry: parEnableTelemetry    
     vpnConnections: (parLocation == 'norwayeast') ? [
@@ -168,4 +253,4 @@ module modSiteOnPrem 'br/public:avm/res/network/vpn-site:0.3.0' = if (parLocatio
 
 output outHubP2SGatewayName string = modP2SVpnGateway.outputs.name
 output outHubVpnGatewayName string = modHubVpnGateway.outputs.name
-output outHubResourceId string = modVirtualHub.outputs.resourceId
+output outHubResourceId string = resVhub.id

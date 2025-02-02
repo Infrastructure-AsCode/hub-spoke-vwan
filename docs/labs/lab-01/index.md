@@ -78,7 +78,7 @@ Check that Azure VPN client is installed on your machine. If not, download and i
 winget install "azure vpn client"
 ```
 
-Next, from Azure portal, download client profile configuration file. Go to your Azure VWAN resource at `rg-vwan-labs-norwayeast-1 -> vwan-norwayeast-1 -> User VPN configurations -> p2s-vpn-config-norwayeast-1` and click on `Download virtual WAN user VPN profile` file.
+Next, from Azure portal, download client profile configuration file. Go to your Azure VWAN resource at `rg-vwan-labs-norwayeast-1 -> vwan-norwayeast-1 -> Connectivity -> User VPN configurations -> p2s-vpn-config-norwayeast-1` and click on `Download virtual WAN user VPN profile` file.
 
 ![download-vpn-config](../../assets/images/lab-01/download-vpn-config.png)
 
@@ -135,6 +135,11 @@ ssh iac-user@10.1.0.132
 
 You should now be able to SSH into `vm-dc-norwayeast`.
 
+```powershell
+# Exit from ssh session
+exit
+```
+
 Get `vm-wl-norwayeast` private IP address 
 
 ```powershell
@@ -153,6 +158,11 @@ ssh iac-user@10.9.2.4
 ![ssh](../../assets/images/lab-01/ssh2.png)
 
 You should now be able to SSH into `vm-dc-norwayeast`.
+
+```powershell
+# Exit from ssh session
+exit
+```
 
 
 ## Task #6 - test connectivity between `vm-dc-norwayeast` and `vm-wl-norwayeast` Virtual Machines
@@ -175,6 +185,15 @@ ssh iac-user@10.1.0.132
 You should now be able to connect from `vm-wl-norwayeast` to `vm-dc-norwayeast` Virtual Machines.
 
 ![ssh](../../assets/images/lab-01/ssh3.png)
+
+```powershell
+# Exit from vm-wl-norwayeast
+exit
+
+# Exit from vm-dc-norwayeast
+exit
+```
+
 
 ## Task #7 - test connectivity to `vm-dc-swedencentral` and `vm-wl-swedencentral` Virtual Machines
 

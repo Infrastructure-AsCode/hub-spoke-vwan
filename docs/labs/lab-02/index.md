@@ -22,7 +22,11 @@ Fill in the form with the following values:
 
 ![vnet-link1](../../assets/images/lab-02/vnet-link1.png)
 
-Keep the rest of the values as default and click `Create` button.
+Keep the rest of the values as default and click `Create` button. 
+
+!!! info "Note"
+    It might take up to 5 minutes for the connection to be established.
+
 
 When the connection is created, you should see it in the list of Virtual network connections.
 

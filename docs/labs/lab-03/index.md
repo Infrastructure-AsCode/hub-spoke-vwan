@@ -38,7 +38,7 @@ To configure VPN link, we need to find Public IP, BGP ASN and BGP address of the
 
 ````powershell
 # Get Public IP of the pip-onprem-gw-swedencentral-1 used by vpn-onprem-swedencentral-1 Virtual Network Gateway
- az network public-ip show --resource-group rg-vwan-labs-norwayeast-1 --name pip-onprem-gw-swedencentral-1 --query ipAddress -otsv
+az network public-ip show --resource-group rg-vwan-labs-norwayeast-1 --name pip-onprem-gw-swedencentral-1 --query ipAddress -otsv
 
 # Get BGP ASN of the vpn-onprem-swedencentral-1 Virtual Network Gateway
 az network vnet-gateway show --resource-group rg-vwan-labs-norwayeast-1 --name vpn-onprem-swedencentral-1 --query bgpSettings.asn -otsv
@@ -62,7 +62,7 @@ At the `Links` tab, complete the following fields (use values from the above com
 
 Click `Next: Review + create >` and then `Create` to create the site.
 
-After Site and Link are created, go back to `rg-vwan-labs-norwayeast-1 -> vwan-norwayeast-1 -> Connectivity -> VPN sites` and you should see new Site created, but not yet connected.
+After Site and Link are created, go back to `rg-vwan-labs-norwayeast-1 -> vwan-norwayeast-1 -> Connectivity -> VPN sites` and you should see new site was created, but not yet connected.
 
 ![site](../../assets/images/lab-03/site-2.png)
 
