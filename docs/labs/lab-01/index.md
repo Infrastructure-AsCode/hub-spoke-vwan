@@ -165,7 +165,7 @@ exit
 ```
 
 
-## Task #6 - test connectivity between `vm-dc-norwayeast` and `vm-wl-norwayeast` Virtual Machines
+## Task #6 - test connectivity between `vm-wl-norwayeast` and `vm-dc-norwayeast` Virtual Machines
 
 As before, use username `iac-user` and password `fooBar123!` to connect to all Virtual Machines (unless you changed these values during  deployment task).
 
@@ -179,18 +179,19 @@ az vm list-ip-addresses -g rg-vwan-labs-norwayeast-1 -n vm-dc-norwayeast --query
 # ssh to vm-wl-norwayeast
 ssh iac-user@10.9.2.4
 
-# from within vm-wl-norwayeast Virtual MAchine ssh to vm-wl-norwayeast
+# from within vm-wl-norwayeast Virtual Machine, ssh to vm-dc-norwayeast
 ssh iac-user@10.1.0.132
 ````
+
 You should now be able to connect from `vm-wl-norwayeast` to `vm-dc-norwayeast` Virtual Machines.
 
 ![ssh](../../assets/images/lab-01/ssh3.png)
 
 ```powershell
-# Exit from vm-wl-norwayeast
+# Exit from vm-dc-norwayeast
 exit
 
-# Exit from vm-dc-norwayeast
+# Exit from vm-wl-norwayeast
 exit
 ```
 

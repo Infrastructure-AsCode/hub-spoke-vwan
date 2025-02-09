@@ -12,7 +12,7 @@ Fill in the form with the following values:
 
 | Field | Value |
 | --- | --- |
-| Connection name | vnet-workload-swedencentral-1 |
+| Connection name | Enter `vnet-workload-swedencentral-1` |
 | Hubs | Select `hub-swedencentral-1` from the list |
 | Subscription | Select Subscription where you VWAn is deployed |
 | Resource group | Select `rg-vwan-labs-norwayeast-1` |
