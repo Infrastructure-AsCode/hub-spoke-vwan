@@ -42,8 +42,29 @@ If you already have `az cli` installed, make sure that you use the latest versio
 az upgrade
 ```
 
-## Register Resource Providers and features
+## Install git
 
 ```powershell
+# Install git for Mac
+brew install git
+
+# Install git with winget
+winget install -e --id Git.Git
 ```
+
+## Install Azure Vpn client
+
+Download and install [Azure VPN Client](https://docs.microsoft.com/en-us/azure/vpn-gateway/openvpn-azure-ad-tenant?tabs=azure-ad-md-2-0&WT.mc_id=AZ-MVP-5003837)
+
+or install it with `winget` (Windows only)
+
+```powershell
+# Install Azure VPN Client with winget
+winget install "azure vpn client"
+```
+
+## Install Kusto Explorer
+
+Download and install the `Kusto.Explorer` tool from [https://aka.ms/ke](https://aka.ms/ke).
+
 

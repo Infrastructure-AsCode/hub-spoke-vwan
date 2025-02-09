@@ -14,10 +14,6 @@ During the workshop we will be working with infrastructure that represents a typ
 - on-prem workloads VPN gateways are implemented as Azure VPN Gateway (no physical VPN devices)
 - Azure Firewall is used to protect Azure VWAN Hubs for north-south and east-west traffic
 - Azure VPN client is used to connect to both cloud and on-prem workloads
-- `workload-norwayeast` can only communicate to `onprem-norwayeast`
-- `workload-swedencentral` can communicate to `onprem-swedencentral`, `workload-norwayeast`, `workload-norwayeast` and `onprem-norwayeast`
-- `onprem-swedencentral` can only communicate to `workload-swedencentral`
-- Users should be able to access all workloads (both on-prem and cloud) at all regions using Azure VPN client
 
 ## Cloud Workload description 
 
@@ -42,6 +38,13 @@ To be able to connect "on-prem workload" to the Virtual WAN Hub using Site-to-Si
 ## IP ranges
 
 All IP ranges used in this lab defined in [IP ranges](https://github.com/Infrastructure-AsCode/hub-spoke-vwan/blob/main/iac/.global/variables.bicep) variables file.
+
+## Network filtering requirements
+
+- `workload-norwayeast` can only communicate to `onprem-norwayeast`
+- `workload-swedencentral` can communicate to `onprem-swedencentral`, `workload-norwayeast`, `workload-norwayeast` and `onprem-norwayeast`
+- `onprem-swedencentral` can only communicate to `workload-swedencentral`
+- Users should be able to access all workloads (both on-prem and cloud) at all regions using Azure VPN client
 
 ## Before workshop start state
 
